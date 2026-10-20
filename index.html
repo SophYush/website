@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sophie Yushina</title>
+<meta name="description" content="Sophie Yushina is a consumer and product researcher, design researcher and industrial designer.">
+<meta property="og:title" content="Sophie Yushina">
+<meta property="og:description" content="Consumer and product researcher, design researcher and industrial designer.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,200..900;1,14..32,200..900&display=swap" rel="stylesheet">
+<style>
+  /* Brand tokens from the portfolio's styles.css (Inter, palette and cursor are her brand, kept on purpose) */
+  :root {
+    --bg: #F4F2EC;
+    --ink: #0C0C0B;
+    --blue: #2B5BFF;
+    --red: #E8290B;
+    --yellow: #F5E642;
+    --spring: cubic-bezier(0.16, 1, 0.3, 1);
+    --snap: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: Inter, system-ui, -apple-system, sans-serif;
+  }
+  a { color: inherit; }
+
+  /* Layers: 0 orbs, 1 shapes, 2 content, 50 hints, 200 top bar, 9998+ cursor */
+
+  /* ── Cursor ── */
+  #cursor, #cursor-ring { display: none; }
+  @media (hover: hover) and (pointer: fine) {
+    body, a { cursor: none; }
+    #cursor, #cursor-ring { display: block; position: fixed; top: 0; left: 0; pointer-events: none; border-radius: 50%; }
+    #cursor { width: 10px; height: 10px; margin: -5px 0 0 -5px; background: var(--ink); z-index: 9999; mix-blend-mode: multiply; transition: scale 0.3s var(--snap), background 0.25s; }
+    #cursor-ring { width: 38px; height: 38px; margin: -19px 0 0 -19px; border: 1.5px solid rgba(12,12,11,0.25); z-index: 9998; transition: scale 0.4s var(--spring), border-color 0.25s; }
+    body.hovering #cursor { scale: 1.8; background: var(--blue); }
+    body.hovering #cursor-ring { scale: 1.6; border-color: rgba(43,91,255,0.45); }
+  }
+
+  /* ── Orbs and shapes ── */
+  #orbs { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(80px); will-change: transform; }
+  .orb-1 { width: 420px; height: 420px; background: var(--yellow); top: -10%; left: -8%; }
+  .orb-2 { width: 380px; height: 380px; background: var(--blue); top: 55%; right: -10%; opacity: 0.55; }
+  .orb-3 { width: 300px; height: 300px; background: var(--red); bottom: 5%; left: 30%; opacity: 0.45; }
+
+  .geo { position: fixed; z-index: 1; pointer-events: none; will-change: transform; }
+  .geo-circle-y { width: 48px; height: 48px; border: 2.5px solid var(--yellow); border-radius: 50%; top: 12%; left: 6%; }
+  .geo-sq-r { width: 32px; height: 32px; border: 2.5px solid var(--red); top: 72%; right: 7%; }
+  .geo-tri-b { width: 0; height: 0; border-left: 16px solid transparent; border-right: 16px solid transparent; border-bottom: 28px solid var(--blue); bottom: 14%; left: 8%; }
+  .geo-dot-r { width: 14px; height: 14px; background: var(--red); border-radius: 50%; top: 40%; left: 4%; }
+  @media (max-width: 640px) { .geo { display: none; } }
+
+  /* ── Top bar ── */
+  .top-name {
+    position: fixed; top: 28px; left: 32px; z-index: 200;
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: rgba(12,12,11,0.45); text-decoration: none;
+  }
+  #portfolio-chip { position: fixed; top: 22px; right: 32px; z-index: 200; }
+  #portfolio-chip a {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 14px 8px 11px; border-radius: 100px;
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.02em;
+    text-decoration: none; white-space: nowrap;
+    background: rgba(255,255,255,0.7); border: 1px solid rgba(12,12,11,0.08);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 4px 20px rgba(12,12,11,0.06);
+  }
+  .chip-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 1px rgba(12,12,11,0.12); }
+
+  .page { position: relative; z-index: 2; }
+
+  /* ── Hero ── */
+  .hero {
+    min-height: 100vh; min-height: 100svh;
+    max-width: 1200px; margin: 0 auto;
+    padding: 96px 60px 72px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+  }
+  .label {
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em;
+    text-transform: uppercase; color: rgba(12,12,11,0.38);
+  }
+  .hero .label { margin-bottom: 18px; line-height: 1.7; }
+  .hero .label .award { color: var(--blue); }
+  h1 {
+    font-size: clamp(3.6rem, 15vw, 13rem);
+    font-weight: 800; letter-spacing: -0.055em; line-height: 0.88;
+    margin-bottom: 36px; transform-origin: left bottom;
+  }
+  h1 .line { display: block; white-space: nowrap; }
+  h1 .char { display: inline-block; will-change: transform; }
+  h1 .line:nth-child(2) .char:hover { color: var(--red); }
+  .hero-sub {
+    font-size: clamp(1.15rem, 2.2vw, 1.6rem);
+    font-weight: 400; letter-spacing: -0.02em; line-height: 1.4;
+    color: rgba(12,12,11,0.72); max-width: 30ch;
+  }
+  .hero-sub strong { font-weight: 800; color: var(--ink); }
+
+  /* ── Marquee (the only one on the page) ── */
+  .band {
+    position: relative; z-index: 2;
+    background: var(--blue); color: var(--bg);
+    transform: rotate(-2.5deg) scale(1.06);
+    padding: 22px 0; margin: 40px 0 80px;
+    overflow: hidden;
+  }
+  .band-track { display: flex; width: max-content; will-change: transform; }
+  .band-item {
+    display: flex; align-items: center; gap: 36px; padding-right: 36px;
+    font-size: clamp(1.8rem, 4.5vw, 3.6rem); font-weight: 800;
+    letter-spacing: -0.04em; white-space: nowrap;
+  }
+  .band-item .shape { width: 0.55em; height: 0.55em; flex-shrink: 0; }
+  .band-item .s-circle { border-radius: 50%; background: var(--yellow); }
+  .band-item .s-square { background: var(--red); transform: rotate(12deg); }
+  .band-item .s-ring { border-radius: 50%; border: 0.09em solid var(--bg); }
+
+  /* ── Pinned "trained to" sequence ── */
+  .trained { position: relative; height: 100vh; height: 100svh; display: flex; align-items: center; overflow: hidden; }
+  .trained-inner { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 60px; }
+  .trained-lead { font-size: clamp(1.6rem, 4vw, 3.4rem); font-weight: 800; letter-spacing: -0.045em; line-height: 1; margin-bottom: 0.15em; color: rgba(12,12,11,0.3); }
+  .word-window { height: 1.1em; overflow: hidden; font-size: clamp(3rem, 11vw, 10rem); font-weight: 800; letter-spacing: -0.055em; line-height: 1.1; }
+  .word-track { will-change: transform; }
+  .word-track div { height: 1.1em; white-space: nowrap; }
+  .w-read { color: var(--ink); }
+  .w-read em { font-style: normal; background: linear-gradient(transparent 62%, var(--yellow) 62%, var(--yellow) 90%, transparent 90%); }
+  .w-make em { font-style: normal; color: var(--red); }
+  .w-predict em { font-style: normal; color: var(--blue); }
+  .trained-meta { margin-top: 36px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 900px; }
+  .trained-meta div { border-top: 2px solid rgba(12,12,11,0.12); padding-top: 14px; font-size: 0.95rem; line-height: 1.5; color: rgba(12,12,11,0.55); transition: border-color 0.4s, color 0.4s; }
+  .trained-meta div strong { display: block; color: var(--ink); font-weight: 800; letter-spacing: -0.01em; }
+  .trained-meta div.on { color: rgba(12,12,11,0.85); }
+  .trained-meta div.on:nth-child(1) { border-color: var(--yellow); }
+  .trained-meta div.on:nth-child(2) { border-color: var(--red); }
+  .trained-meta div.on:nth-child(3) { border-color: var(--blue); }
+
+  /* ── Bio rows ── */
+  .inner { max-width: 1040px; margin: 0 auto; padding: 0 60px 100px; }
+  .row {
+    display: grid; grid-template-columns: 160px 1fr; column-gap: 60px;
+    padding: 64px 0; border-top: 1px solid rgba(12,12,11,0.1);
+    position: relative;
+  }
+  .row .label { padding-top: 10px; }
+  .big {
+    font-size: clamp(1.5rem, 3.2vw, 2.6rem); font-weight: 600;
+    letter-spacing: -0.035em; line-height: 1.22; max-width: 28ch;
+  }
+  .big + .big { margin-top: 0.7em; }
+  .big .wd { display: inline-block; }
+  .big strong { font-weight: 800; }
+
+  /* Spinning award badge */
+  .badge {
+    position: absolute; right: 0; top: 50%; width: 150px; height: 150px; margin-top: -75px;
+    display: grid; place-items: center;
+  }
+  .badge svg { position: absolute; inset: 0; width: 100%; height: 100%; will-change: transform; }
+  .badge text { font-size: 11.5px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; fill: var(--ink); }
+  .badge-core { width: 64px; height: 64px; border-radius: 50%; background: var(--blue); color: var(--bg); display: grid; place-items: center; font-weight: 800; font-size: 1.25rem; letter-spacing: -0.04em; }
+  @media (max-width: 900px) { .badge { position: static; margin: 40px 0 0; } }
+
+  /* ── Contact ── */
+  .contact-links { list-style: none; }
+  .contact-links a {
+    position: relative; display: flex; align-items: baseline; justify-content: space-between; gap: 24px;
+    padding: 22px 0; border-bottom: 1px solid rgba(12,12,11,0.08);
+    text-decoration: none; overflow: hidden;
+    font-size: clamp(1.5rem, 3.6vw, 2.8rem); font-weight: 800; letter-spacing: -0.045em;
+  }
+  .contact-links li:first-child a { padding-top: 0; }
+  .contact-links .t { position: relative; display: inline-block; transition: transform 0.5s var(--spring), color 0.25s; }
+  .contact-links .k { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(12,12,11,0.35); white-space: nowrap; transition: color 0.25s, transform 0.5s var(--snap); }
+  .contact-links a:hover .t { transform: translateX(12px); color: var(--blue); }
+  .contact-links a:hover .k { color: var(--blue); transform: translateX(-6px) rotate(-4deg); }
+  .contact-links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--blue); transform: scaleX(0); transform-origin: left; transition: transform 0.6s var(--spring); }
+  .contact-links a:hover::after { transform: scaleX(1); }
+
+  footer {
+    position: relative; z-index: 2;
+    max-width: 1040px; margin: 0 auto; padding: 0 60px 48px;
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: rgba(12,12,11,0.3);
+  }
+
+  /* ── Key hints ── */
+  #key-hints {
+    position: fixed; bottom: 28px; right: 28px; z-index: 50;
+    display: flex; flex-direction: column; gap: 5px;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(12,12,11,0.06); border-radius: 12px; padding: 10px 13px;
+    box-shadow: 0 4px 20px rgba(12,12,11,0.06);
+  }
+  .key-hint { display: flex; align-items: center; gap: 8px; font-size: 0.74rem; font-weight: 500; color: rgba(12,12,11,0.6); white-space: nowrap; }
+  .key-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; padding: 0 5px; border: 1.5px solid rgba(12,12,11,0.18); border-bottom-width: 3px; border-radius: 6px; background: #fff; font-size: 0.7rem; font-weight: 800; color: var(--ink); box-shadow: 0 1px 2px rgba(12,12,11,0.06); transition: transform 0.15s; }
+  .key-badge.pressed { transform: translateY(2px); border-bottom-width: 1.5px; }
+  @media (hover: none), (max-width: 900px) { #key-hints { display: none; } }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .hero { padding: 96px 32px 56px; }
+    .trained-inner { padding: 0 32px; }
+    .inner { padding: 0 32px 80px; }
+    footer { padding: 0 32px 40px; }
+    .row { grid-template-columns: 110px 1fr; column-gap: 32px; }
+  }
+  @media (max-width: 600px) {
+    .top-name { left: 20px; }
+    #portfolio-chip { right: 16px; }
+    .hero { padding: 96px 20px 48px; }
+    .trained-inner { padding: 0 20px; }
+    .trained-meta { grid-template-columns: 1fr; gap: 12px; }
+    .inner { padding: 0 20px 64px; }
+    footer { padding: 0 20px 32px; }
+    .row { grid-template-columns: 1fr; padding: 48px 0; }
+    .row .label { margin-bottom: 16px; padding-top: 0; }
+  }
+</style>
+</head>
+<body>
+
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+  <div id="orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="geo geo-circle-y"></div>
+  <div class="geo geo-sq-r"></div>
+  <div class="geo geo-tri-b"></div>
+  <div class="geo geo-dot-r"></div>
+
+  <a class="top-name" href="#">Sophie Yushina</a>
+  <div id="portfolio-chip">
+    <a href="#contact"><span class="chip-dot"></span>Say hello<span style="opacity:0.6">&darr;</span></a>
+  </div>
+
+  <div class="page">
+
+    <section class="hero">
+      <p class="label hero-label">Consumer &amp; Product Research &amp; Innovation · Design Research <span class="award">iF Award 2026</span></p>
+      <h1 aria-label="Sophie Yushina"><span class="line">Sophie</span><span class="line">Yushina</span></h1>
+      <p class="hero-sub">Researcher and industrial designer, <strong>curious about why people choose the things they do.</strong></p>
+    </section>
+
+    <section class="trained" aria-label="Training">
+      <div class="trained-inner">
+        <p class="trained-lead">She was trained to</p>
+        <div class="word-window">
+          <div class="word-track">
+            <div class="w-read"><em>read</em> objects,</div>
+            <div class="w-make">then <em>make</em> them,</div>
+            <div class="w-predict">then <em>predict</em> them.</div>
+          </div>
+        </div>
+        <div class="trained-meta">
+          <div class="on"><strong>Art history</strong>Lomonosov Moscow State University</div>
+          <div><strong>Industrial design</strong>Muthesius Academy of Fine Arts and Design, Kiel</div>
+          <div><strong>Innovation research</strong>University of Bayreuth</div>
+        </div>
+      </div>
+    </section>
+
+    <main class="inner">
+
+      <div class="row">
+        <div class="label">About</div>
+        <div>
+          <p class="big split"><strong>Sophie Yushina</strong> lives in Hamburg. She started out looking at paintings, moved on to making objects, and ended up asking people why they want the things they want.</p>
+          <p class="big split">She is drawn to the quiet questions behind everyday choices: what we buy, what we keep, what we copy, and what it costs the planet.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="label">Now</div>
+        <div>
+          <p class="big split">These days she leads <strong>Customer &amp; Market Insights at Rabot Energy</strong>. In 2026 she received an iF Design Award.</p>
+        </div>
+        <div class="badge" aria-label="iF Design Award 2026">
+          <svg viewBox="0 0 150 150" aria-hidden="true">
+            <defs><path id="circ" d="M75,75 m-58,0 a58,58 0 1,1 116,0 a58,58 0 1,1 -116,0"/></defs>
+            <text><textPath href="#circ">iF Design Award 2026 · iF Design Award 2026 · </textPath></text>
+          </svg>
+          <div class="badge-core">iF</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="label">Writing</div>
+        <div>
+          <p class="big split">She writes about consumer behaviour, technology adoption and conscious consumption. Her next essay, <strong>The (Digital) Dupes World</strong>, asks what happens when software can be copied as easily as furniture.</p>
+        </div>
+      </div>
+
+      <div class="row" id="contact">
+        <div class="label">Say hello</div>
+        <ul class="contact-links">
+          <li><a class="email-link magnet" href="#contact"><span class="t email-text">sophieyushina(at)icloud.com</span><span class="k">Email</span></a></li>
+          <li><a class="magnet" href="https://www.linkedin.com/in/sofya-yushina/" target="_blank" rel="noopener"><span class="t">LinkedIn</span><span class="k">Elsewhere</span></a></li>
+          <li><a class="magnet" href="https://sophyush.github.io/portfolio/" target="_blank" rel="noopener"><span class="t">Portfolio</span><span class="k">Work</span></a></li>
+        </ul>
+      </div>
+
+    </main>
+
+    <footer>Sophie Yushina, 2026</footer>
+
+  </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function () {
+  // Email: assembled here so spam bots can't read it from the source
+  var EMAIL = "sophieyushina" + "@" + "icloud.com";
+  document.querySelectorAll(".email-link").forEach(function (a) { a.href = "mailto:" + EMAIL; });
+  document.querySelectorAll(".email-text").forEach(function (s) { s.textContent = EMAIL; });
+
+  // Keyboard shortcuts, as on the portfolio
+  document.addEventListener("keydown", function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = e.key.toLowerCase();
+    var badge = document.querySelector('.key-badge[data-key="' + k + '"]');
+    if (badge) { badge.classList.add("pressed"); setTimeout(function () { badge.classList.remove("pressed"); }, 160); }
+    if (k === "p") window.open("https://sophyush.github.io/portfolio/", "_blank", "noopener");
+    if (k === "l") window.open("https://www.linkedin.com/in/sofya-yushina/", "_blank", "noopener");
+    if (k === "w") window.location.href = "mailto:" + EMAIL;
+  });
+
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (typeof gsap === "undefined" || reduce) return; // static page, everything already visible
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Split the name into letters
+  var chars = [];
+  document.querySelectorAll("h1 .line").forEach(function (line) {
+    var t = line.textContent; line.textContent = "";
+    t.split("").forEach(function (c) {
+      var s = document.createElement("span"); s.className = "char"; s.textContent = c;
+      line.appendChild(s); chars.push(s);
+    });
+  });
+
+  // Split bio paragraphs into words for the scroll-scrubbed read
+  document.querySelectorAll(".split").forEach(function (p) {
+    var walk = function (node) {
+      Array.prototype.slice.call(node.childNodes).forEach(function (n) {
+        if (n.nodeType === 3) {
+          var frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(function (w) {
+            if (!w) return;
+            if (/^\s+$/.test(w)) { frag.appendChild(document.createTextNode(w)); return; }
+            var s = document.createElement("span"); s.className = "wd"; s.textContent = w; frag.appendChild(s);
+          });
+          n.parentNode.replaceChild(frag, n);
+        } else if (n.nodeType === 1) { walk(n); }
+      });
+    };
+    walk(p);
+  });
+
+  // 1. Hero entrance: letters fall in with a bounce, then label and line follow
+  var intro = gsap.timeline({ defaults: { ease: "expo.out" } });
+  intro
+    .from(chars, { yPercent: 120, rotate: function () { return gsap.utils.random(-25, 25); }, opacity: 0, duration: 1.3, stagger: 0.045, ease: "back.out(1.7)" })
+    .from(".hero-label", { y: 20, opacity: 0, duration: 0.9 }, 0.2)
+    .from(".hero-sub", { y: 30, opacity: 0, duration: 1 }, 0.7)
+    .from(".orb", { scale: 0.2, opacity: 0, duration: 2.2, stagger: 0.15 }, 0)
+    .from(".geo", { scale: 0, rotate: -180, duration: 1.2, stagger: 0.1, ease: "back.out(2)" }, 0.5)
+    .from("#portfolio-chip, .top-name",{ y: -16, opacity: 0, duration: 0.8, stagger: 0.08 }, 0.6);
+
+  // 2. Hero name shrinks and tilts away as you scroll past it
+  gsap.to("h1", {
+    scale: 0.82, yPercent: -18, rotate: -2, ease: "none",
+    scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true }
+  });
+
+  // 3. Letters lean away from the cursor (desktop only)
+  if (fine) {
+    var movers = chars.map(function (el) {
+      return { el: el, x: gsap.quickTo(el, "x", { duration: 0.6, ease: "power3" }), y: gsap.quickTo(el, "y", { duration: 0.6, ease: "power3" }) };
+    });
+    window.addEventListener("mousemove", function (e) {
+      movers.forEach(function (m) {
+        var r = m.el.getBoundingClientRect();
+        var dx = r.left + r.width / 2 - e.clientX, dy = r.top + r.height / 2 - e.clientY;
+        var d = Math.sqrt(dx * dx + dy * dy), R = 180;
+        if (d < R) { var f = (1 - d / R) * 38; m.x(dx / d * f); m.y(dy / d * f); }
+        else { m.x(0); m.y(0); }
+      });
+    });
+  }
+
+  // 4. Cursor, and orbs that drift toward it
+  if (fine) {
+    var dot = document.getElementById("cursor"), ring = document.getElementById("cursor-ring");
+    var dx = gsap.quickTo(dot, "x", { duration: 0.08 }), dy = gsap.quickTo(dot, "y", { duration: 0.08 });
+    var rx = gsap.quickTo(ring, "x", { duration: 0.45, ease: "power3" }), ry = gsap.quickTo(ring, "y", { duration: 0.45, ease: "power3" });
+    var orbs = gsap.utils.toArray(".orb").map(function (o, i) {
+      var depth = [0.08, -0.06, 0.05][i];
+      return { depth: depth, x: gsap.quickTo(o, "x", { duration: 2.4, ease: "power2" }), y: gsap.quickTo(o, "y", { duration: 2.4, ease: "power2" }) };
+    });
+    window.addEventListener("mousemove", function (e) {
+      dx(e.clientX); dy(e.clientY); rx(e.clientX); ry(e.clientY);
+      var cx = e.clientX - window.innerWidth / 2, cy = e.clientY - window.innerHeight / 2;
+      orbs.forEach(function (o) { o.x(cx * o.depth * 4); o.y(cy * o.depth * 4); });
+    });
+    document.querySelectorAll("a").forEach(function (a) {
+      a.addEventListener("mouseenter", function () { document.body.classList.add("hovering"); });
+      a.addEventListener("mouseleave", function () { document.body.classList.remove("hovering"); });
+    });
+
+    // Magnetic contact links
+    document.querySelectorAll(".magnet").forEach(function (a) {
+      var t = a.querySelector(".t");
+      var mx = gsap.quickTo(a, "x", { duration: 0.5, ease: "power3" }), my = gsap.quickTo(a, "y", { duration: 0.5, ease: "power3" });
+      a.addEventListener("mousemove", function (e) {
+        var r = a.getBoundingClientRect();
+        mx((e.clientX - (r.left + r.width / 2)) * 0.06); my((e.clientY - (r.top + r.height / 2)) * 0.25);
+      });
+      a.addEventListener("mouseleave", function () { mx(0); my(0); });
+    });
+  }
+
+  // 5. Shapes spin and drift with scroll, faster when you scroll faster
+  var spin = { v: 0 };
+  gsap.utils.toArray(".geo").forEach(function (g, i) {
+    gsap.to(g, {
+      y: [-160, 220, -260, 140][i], rotate: [540, -720, 180, 0][i], ease: "none",
+      scrollTrigger: { start: 0, end: "max", scrub: 1.2 }
+    });
+  });
+  gsap.to(".geo-dot-r", { scale: 1.6, opacity: 0.5, duration: 1.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
+
+  // 7. Pinned training sequence: read, make, predict, one word per scroll step
+  var meta = gsap.utils.toArray(".trained-meta div");
+  var tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".trained", start: "top top", end: "+=220%", pin: true, scrub: 0.8,
+      onUpdate: function (self) {
+        var step = Math.min(2, Math.floor(self.progress * 3));
+        meta.forEach(function (m, i) { m.classList.toggle("on", i === step); });
+      }
+    }
+  });
+  tl.to(".word-track", { yPercent: -33.333, ease: "power2.inOut", duration: 1 }, 0.4)
+    .to(".word-track", { yPercent: -66.666, ease: "power2.inOut", duration: 1 }, 1.8)
+    .to(".word-window", { scale: 1.04, transformOrigin: "left center", duration: 0.6, yoyo: true, repeat: 1 }, 0.4)
+    .to({}, { duration: 0.4 });
+
+  // 8. Bio text reads itself in, word by word, as it scrolls through
+  gsap.utils.toArray(".split").forEach(function (p) {
+    gsap.fromTo(p.querySelectorAll(".wd"), { opacity: 0.12, y: 10 }, {
+      opacity: 1, y: 0, stagger: 0.05, ease: "none",
+      scrollTrigger: { trigger: p, start: "top 85%", end: "bottom 55%", scrub: true }
+    });
+  });
+  gsap.utils.toArray(".row .label").forEach(function (l) {
+    gsap.from(l, { x: -30, opacity: 0, duration: 0.8, ease: "expo.out", scrollTrigger: { trigger: l, start: "top 85%" } });
+  });
+
+  // 9. Award badge spins with scroll and pops in
+  gsap.to(".badge svg", { rotate: 720, ease: "none", scrollTrigger: { start: 0, end: "max", scrub: 0.5 } });
+  gsap.from(".badge", { scale: 0, rotate: -90, duration: 1.2, ease: "back.out(2)", scrollTrigger: { trigger: ".badge", start: "top 85%" } });
+
+  // 10. Contact lines slide in one by one
+  gsap.from(".contact-links li", { yPercent: 100, opacity: 0, duration: 1, stagger: 0.12, ease: "expo.out", scrollTrigger: { trigger: ".contact-links", start: "top 80%" } });
+
+  window.addEventListener("load", function () { ScrollTrigger.refresh(); });
+})();
+</script>
+</body>
+</html>
